@@ -889,3 +889,116 @@ body.invitation-page:not(.page-leaving) .invitation-footer {
     animation: none !important;
   }
 }
+/* =========================================
+   COUPLE NAME CAPITALIZATION
+   ========================================= */
+
+.script-name {
+  text-transform: none !important;
+}
+
+.script-name .name-initial {
+  display: inline-block;
+  font-family: var(--display);
+  font-size: 0.84em;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1;
+  color: #5d411b;
+  vertical-align: 0.02em;
+}
+
+.with-line {
+  text-transform: none !important;
+}
+
+
+/* =========================================
+   SEAMLESS INVITATION PAGE ARRIVAL
+   ========================================= */
+
+/* Prevent the invitation content flashing before
+   the opening overlay is restored on page load. */
+
+html.wedding-transition-pending,
+html.wedding-transition-pending body.invitation-page {
+  background: var(--red-950);
+}
+
+html.wedding-transition-pending body.invitation-page > * {
+  visibility: hidden;
+}
+
+
+/* Keep the same open envelope visible across navigation. */
+
+.letter-opening-overlay.is-arrival {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.85s ease, visibility 0s linear;
+}
+
+
+/* Match the final envelope state from the cover page. */
+
+.letter-opening-overlay.is-arrival .opening-envelope {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: none !important;
+}
+
+.letter-opening-overlay.is-arrival .opening-letter {
+  opacity: 1;
+  transform: translateY(-17%) scaleY(1);
+  animation: none !important;
+}
+
+.letter-opening-overlay.is-arrival .opening-flap {
+  transform: rotateX(178deg);
+  animation: none !important;
+}
+
+.letter-opening-overlay.is-arrival .opening-caption {
+  opacity: 1;
+  transform: translateY(0);
+  animation: none !important;
+}
+
+
+/* Fade the envelope away to reveal invitation.html. */
+
+.letter-opening-overlay.is-arrival.is-dismissing {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.85s ease,
+    visibility 0s linear 0.85s;
+}
+
+
+/* =========================================
+   SLOWER COVER ENVELOPE ANIMATION
+   ========================================= */
+
+.letter-opening-overlay.is-active .opening-envelope {
+  animation-duration: 0.68s;
+}
+
+.letter-opening-overlay.is-active .opening-letter {
+  animation:
+    letterRise 1.22s 0.24s
+    cubic-bezier(0.18, 0.72, 0.2, 1) forwards;
+}
+
+.letter-opening-overlay.is-active .opening-flap {
+  animation:
+    envelopeFlapOpen 1.08s 0.78s
+    cubic-bezier(0.3, 0.05, 0.45, 1) forwards;
+}
+
+.letter-opening-overlay.is-active .opening-caption {
+  animation:
+    openingCaptionReveal 0.58s 1.3s ease forwards;
+}
