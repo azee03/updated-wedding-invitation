@@ -1002,3 +1002,20 @@ html.wedding-transition-pending body.invitation-page > * {
   animation:
     openingCaptionReveal 0.58s 1.3s ease forwards;
 }
+/* Couple names: one consistent script font */
+.couple-section .script-name,
+.couple-section .script-name * {
+    font-family: "Great Vibes", cursive !important;
+    font-weight: 400 !important;
+    font-style: normal;
+    text-transform: none !important;
+    font-variant: normal !important;
+    font-variant-caps: normal !important;
+}
+
+/* Keep "With" elegant and distinct */
+.couple-section .with-line {
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic;
+    text-transform: none;
+}
