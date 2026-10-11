@@ -6,21 +6,6 @@
   <meta name="theme-color" content="#640d1c" />
   <meta name="description" content="Nikah invitation of Adv. Thasnim N.S and Muhamed Uvais S, Thursday 10 December 2026." />
   <title>The Invitation | Thasnim &amp; Muhamed Uvais</title>
-  <script>
-    // Set this before the page can paint, so the completed envelope can bridge the page load.
-    try {
-      if (
-        sessionStorage.getItem("weddingInvitationOpening") === "1" &&
-        !window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      ) {
-        document.documentElement.classList.add("wedding-transition-arrival");
-      } else {
-        sessionStorage.removeItem("weddingInvitationOpening");
-      }
-    } catch (error) {
-      // The invitation remains usable if storage is unavailable.
-    }
-  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -28,21 +13,6 @@
   <script src="script.js" defer></script>
 </head>
 <body class="invitation-page">
-  <!-- Hidden during direct visits; shown on arrival to continue the envelope's final frame. -->
-  <div class="letter-opening-overlay arrival-overlay" id="arrivalOverlay" aria-hidden="true">
-    <div class="opening-stage">
-      <div class="opening-envelope">
-        <div class="opening-letter">
-          <span class="opening-monogram">M <i>&amp;</i> T</span>
-          <span class="opening-subtitle">With love &amp; duas</span>
-        </div>
-        <div class="opening-pocket"></div>
-        <div class="opening-flap"></div>
-      </div>
-      <p class="opening-caption">Opening your invitation…</p>
-    </div>
-  </div>
-
   <main class="invitation-wrap">
     <article class="invitation-paper">
       <div class="paper-border" aria-hidden="true"></div>
@@ -55,7 +25,7 @@
       <section class="invitation-hero" aria-label="Wedding photograph">
         <img
           class="hero-image"
-          src="images/wedding-hands.jpeg"
+          src="image/wedding-hands.jpeg"
           alt="A close-up of the couple's hands during their ring ceremony"
           width="1040"
           height="694"
@@ -75,9 +45,20 @@
         </header>
 
         <section class="couple-section" aria-label="The couple">
-          <p class="script-name bride-name"><span class="name-initial">A</span>dv. <span class="name-initial">T</span>hasnim <span class="name-initial">N</span>. <span class="name-initial">S</span>.</p>
-          <p class="with-line">with</p>
-          <p class="script-name groom-name"><span class="name-initial">M</span>uhamed <span class="name-initial">U</span>vais <span class="name-initial">S</span>.</p>
+          <p class="script-name bride-name">
+            <span class="name-initial">A</span>dv.
+            <span class="name-initial">T</span>hasnim
+            <span class="name-initial">N</span>.
+            <span class="name-initial">S</span>.
+          </p>
+        
+          <p class="with-line">With</p>
+        
+          <p class="script-name groom-name">
+            <span class="name-initial">M</span>uhamed
+            <span class="name-initial">U</span>vais
+            <span class="name-initial">S</span>.
+          </p>
         </section>
 
         <p class="insha-line">In sha Allah</p>
@@ -111,14 +92,9 @@
             <p class="event-sub">&amp; 12:00 P.M.</p>
           </div>
         </section>
-        <!--
+
         <section class="countdown-section" aria-label="Countdown to the wedding">
-          <div class="ornament-divider ornament-divider--small" aria-hidden="true"><span></span>✧<span></span></div>
-          <p class="gathering-label">Nikah &amp; wedding gathering</p>
-          <p class="gathering-detail">
-            <a class="gathering-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Rashaj+Windsor+Convention+Centre+Nagaroor+Karette+Road+Poikakkada+Koduvalzhannoor" target="_blank" rel="noopener noreferrer">Rashaj Windsor Convention Centre ↗,<br />Nagaroor, Karette Rd</a>
-          </p>
-          <p class="gathering-time">11:00 a.m. onwards</p> -->
+         
           <p class="countdown-heading">Counting down to the day</p>
           <div class="countdown" data-countdown>
             <div><strong data-days>--</strong><span>Days</span></div>
@@ -128,14 +104,14 @@
           </div>
           <div class="ornament-divider ornament-divider--small" aria-hidden="true"><span></span>✧<span></span></div>
         </section>
+
         <!--
         <section class="gathering-section" aria-label="Pre-wedding gathering">
           <p class="gathering-label">Pre-wedding gathering</p>
           <p class="gathering-detail">Zahira Auditorium, Pangode</p>
           <p class="gathering-time">4:00 p.m. onwards</p>
           <div class="ornament-divider ornament-divider--small" aria-hidden="true"><span></span>✧<span></span></div>
-        </section>
-        -->
+        </section> -->
 
         <footer class="invitation-footer">
           <p class="footer-dua">Your presence and duas will make our celebration more special.</p>
@@ -148,7 +124,7 @@
 
   <!-- Background music: autoplay is attempted, with a tap control fallback. -->
   <audio id="invitationMusic" loop preload="auto" playsinline>
-    <source src="music/background.mp3" type="audio/mpeg" />
+    <source src="https://azee03.github.io/updated-wedding-invitation/music/background.mp3" type="audio/mpeg" />
   </audio>
   <button type="button" class="music-toggle" id="musicToggle" aria-label="Play background music" aria-pressed="false">
     <span aria-hidden="true">♫</span>
