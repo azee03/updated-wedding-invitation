@@ -1019,3 +1019,17 @@ html.wedding-transition-pending body.invitation-page > * {
     font-style: italic;
     text-transform: none;
 }
+/* Clear, elegant capital letters in a consistent script font */
+.couple-section .script-name,
+.couple-section .script-name * {
+    font-family: "Allura", cursive !important;
+    font-weight: 400 !important;
+    font-style: normal !important;
+    text-transform: none !important;
+    font-variant-caps: normal !important;
+}
+
+.couple-section .with-line {
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic;
+}
