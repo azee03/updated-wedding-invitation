@@ -3,6 +3,7 @@
 /* =========================================
    COVER SEAL GLOW AND MOTION
    ========================================= */
+
 if (document.body.classList.contains("cover-page")) {
   const animationStyles = document.createElement("style");
 
@@ -245,17 +246,178 @@ if (document.body.classList.contains("cover-page")) {
   document.head.appendChild(animationStyles);
 }
 
-script.js
+
+/* =========================================
+   LETTER / ENVELOPE MARKUP
+   ========================================= */
+
+function getLetterOpeningMarkup() {
+  return `
+    <div class="opening-stage">
+
+      <div class="opening-envelope">
+
+        <div class="opening-letter">
+          <span class="opening-monogram">
+            M <i>&amp;</i> T
+          </span>
+
+          <span class="opening-subtitle">
+            With love &amp; duas
+          </span>
+        </div>
+
+        <div class="opening-pocket"></div>
+        <div class="opening-flap"></div>
+
+      </div>
+
+      <p class="opening-caption">
+        Opening your invitation…
+      </p>
+
+    </div>
+  `;
+}
+
+
+/* =========================================
+   START THE LETTER-OPENING ANIMATION
+   ========================================= */
+
+function createLetterOpening(destination) {
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  // Respect the visitor's reduced-motion preference.
+  if (reducedMotion) {
+    window.location.href = destination;
+    return;
+  }
+
+  const overlay = document.createElement("div");
+
+  overlay.className = "letter-opening-overlay";
+  overlay.setAttribute("aria-hidden", "true");
+  overlay.innerHTML = getLetterOpeningMarkup();
+
+  document.body.appendChild(overlay);
+  document.body.classList.add("page-leaving");
+
+  document.querySelector(".seal-link")
+    ?.classList.add("seal-pressed");
+
+  document.querySelector(".cover-tap")
+    ?.classList.add("instruction-active");
+
+  // Tell invitation.html to continue the same transition.
+  try {
+    sessionStorage.setItem(
+      "weddingOpeningPending",
+      "1"
+    );
+  } catch (error) {
+    // The opening animation can still run if storage is blocked.
+  }
+
+  // Ensure the starting animation state is rendered.
+  void overlay.offsetWidth;
+
+  requestAnimationFrame(() => {
+    overlay.classList.add("is-active");
+  });
+
+  // Keep this delay coordinated with the CSS animation timings.
+  window.setTimeout(() => {
+    window.location.href = destination;
+  }, 2200);
+}
+
+
+/* =========================================
+   RESTORE THE OPEN ENVELOPE ON INVITATION.HTML
+   ========================================= */
+
+function restoreLetterOpeningOnArrival() {
+  if (!document.body.classList.contains("invitation-page")) {
+    document.documentElement.classList.remove(
+      "wedding-transition-pending"
+    );
+
+    return;
+  }
+
+  let shouldRestore = false;
+
+  try {
+    shouldRestore =
+      sessionStorage.getItem("weddingOpeningPending") === "1";
+
+    // Remove the flag so normal visits don't replay the transition.
+    sessionStorage.removeItem("weddingOpeningPending");
+  } catch (error) {
+    // Continue with the normal invitation if storage is blocked.
+  }
+
+  if (!shouldRestore) {
+    document.documentElement.classList.remove(
+      "wedding-transition-pending"
+    );
+
+    return;
+  }
+
+  const overlay = document.createElement("div");
+
+  // Restore the envelope in its already-open state.
+  overlay.className =
+    "letter-opening-overlay is-active is-arrival";
+
+  overlay.setAttribute("aria-hidden", "true");
+  overlay.innerHTML = getLetterOpeningMarkup();
+
+  document.body.appendChild(overlay);
+
+  /*
+   * Remove the temporary page-hiding class after adding
+   * the overlay. Both operations occur before the next paint,
+   * so the envelope can cover the invitation without a flash.
+   */
+  document.documentElement.classList.remove(
+    "wedding-transition-pending"
+  );
+
+  // Allow the invitation entrance animation to begin underneath.
+  requestAnimationFrame(() => {
+    window.setTimeout(() => {
+      overlay.classList.add("is-dismissing");
+
+      // Remove the overlay after its fade-out finishes.
+      window.setTimeout(() => {
+        overlay.remove();
+      }, 900);
+
+    }, 120);
+  });
+}
+
+// Resume the transition when invitation.html loads.
+restoreLetterOpeningOnArrival();
+
 
 /* =========================================
    SMOOTH NAVIGATION BETWEEN LOCAL PAGES
    ========================================= */
+
 document
   .querySelectorAll(
     'a[href="invitation.html"], a[href="index.html"]'
   )
   .forEach((link) => {
     link.addEventListener("click", (event) => {
+
+      // Preserve normal browser shortcuts and new-tab behaviour.
       if (
         event.button !== 0 ||
         event.metaKey ||
@@ -279,20 +441,20 @@ document
 
       event.preventDefault();
 
-      // Prevent multiple clicks from triggering navigation repeatedly.
+      // Prevent multiple clicks during an active transition.
       if (link.dataset.navigationStarted === "true") {
         return;
       }
 
       link.dataset.navigationStarted = "true";
 
-      // Use the envelope-opening animation when the seal is clicked.
+      // The M&T seal opens the letter.
       if (link.classList.contains("seal-link")) {
         createLetterOpening(destination);
         return;
       }
 
-      // Use a short fade transition for other local page links.
+      // Other local links use a short fade transition.
       const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
@@ -309,6 +471,7 @@ document
 /* =========================================
    LIVE COUNTDOWN TO THE NIKAH
    ========================================= */
+
 const countdown = document.querySelector("[data-countdown]");
 
 if (countdown) {
@@ -338,7 +501,8 @@ if (countdown) {
       );
 
       if (heading) {
-        heading.textContent = "The celebration day is here";
+        heading.textContent =
+          "The celebration day is here";
       }
 
       return;
@@ -361,19 +525,23 @@ if (countdown) {
     );
 
     if (fields.days) {
-      fields.days.textContent = String(days).padStart(2, "0");
+      fields.days.textContent =
+        String(days).padStart(2, "0");
     }
 
     if (fields.hours) {
-      fields.hours.textContent = String(hours).padStart(2, "0");
+      fields.hours.textContent =
+        String(hours).padStart(2, "0");
     }
 
     if (fields.minutes) {
-      fields.minutes.textContent = String(minutes).padStart(2, "0");
+      fields.minutes.textContent =
+        String(minutes).padStart(2, "0");
     }
 
     if (fields.seconds) {
-      fields.seconds.textContent = String(seconds).padStart(2, "0");
+      fields.seconds.textContent =
+        String(seconds).padStart(2, "0");
     }
   };
 
@@ -386,6 +554,7 @@ if (countdown) {
 /* =========================================
    BACKGROUND MUSIC WITH AUTOPLAY FALLBACK
    ========================================= */
+
 (() => {
   const audio = document.getElementById("invitationMusic");
   const button = document.getElementById("musicToggle");
@@ -395,7 +564,6 @@ if (countdown) {
   }
 
   const label = button.querySelector(".music-label");
-
   const targetVolume = 0.5;
 
   let fadeFrame = 0;
@@ -462,15 +630,16 @@ if (countdown) {
 
       await audio.play();
 
-      // Ignore an outdated play request.
+      // Ignore stale requests if the user has paused meanwhile.
       if (thisRequest !== playRequest) {
         return;
       }
 
       updateButton(true);
       fadeIn();
+
     } catch (error) {
-      // Autoplay may be blocked by the browser.
+      // Browsers can block autoplay until the visitor interacts.
       updateButton(false);
     }
   }
@@ -505,6 +674,6 @@ if (countdown) {
     updateButton(false);
   });
 
-  // Attempt autoplay; the play button remains available if blocked.
+  // Attempt autoplay; the music button remains available if blocked.
   playMusic();
 })();
