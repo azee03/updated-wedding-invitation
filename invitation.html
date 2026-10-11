@@ -9,6 +9,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+  try {
+    if (sessionStorage.getItem("weddingOpeningPending") === "1") {
+      document.documentElement.classList.add(
+        "wedding-transition-pending"
+      );
+    }
+  } catch (error) {
+    // Continue normally if sessionStorage is unavailable.
+  }
+</script> 
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
 </head>
