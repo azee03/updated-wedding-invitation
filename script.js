@@ -245,75 +245,7 @@ if (document.body.classList.contains("cover-page")) {
   document.head.appendChild(animationStyles);
 }
 
-
-/* =========================================
-   SLOW ENVELOPE / LETTER OPENING TRANSITION
-   ========================================= */
-function createLetterOpening(destination) {
-  const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-
-  if (reducedMotion) {
-    window.location.href = destination;
-    return;
-  }
-
-  const overlay = document.createElement("div");
-  overlay.className = "letter-opening-overlay";
-  overlay.setAttribute("aria-hidden", "true");
-
-  overlay.innerHTML = `
-    <div class="opening-stage">
-      <div class="opening-envelope">
-
-        <div class="opening-letter">
-          <span class="opening-monogram">
-            M <i>&amp;</i> T
-          </span>
-
-          <span class="opening-subtitle">
-            With love &amp; duas
-          </span>
-        </div>
-
-        <div class="opening-pocket"></div>
-        <div class="opening-flap"></div>
-
-      </div>
-
-      <p class="opening-caption">
-        Opening your invitation…
-      </p>
-    </div>
-  `;
-
-  document.body.appendChild(overlay);
-
-  document.body.classList.add("page-leaving");
-
-  document.querySelector(".seal-link")
-    ?.classList.add("seal-pressed");
-
-  document.querySelector(".cover-tap")
-    ?.classList.add("instruction-active");
-
-  // Paint the initial animation state before activating it.
-  void overlay.offsetWidth;
-
-  requestAnimationFrame(() => {
-    overlay.classList.add("is-active");
-  });
-
-  /*
-    The letter-opening animation is controlled by style.css.
-    Keep this delay long enough for the slower animation to finish.
-  */
-  window.setTimeout(() => {
-    window.location.href = destination;
-  }, 3400);
-}
-
+script.js
 
 /* =========================================
    SMOOTH NAVIGATION BETWEEN LOCAL PAGES
